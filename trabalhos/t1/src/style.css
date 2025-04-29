@@ -1,0 +1,220 @@
+:root
+{
+    --color-background-primary: #1e1e1e;
+    --color-background-secondary: #2e2e2e;
+    --color-background-tertiary: #000000;
+    --color-border-default: #464646;
+    --color-border-highlight: #20C20E;
+    --color-border-muted: #2e2e2e;
+    --color-text-primary: white;
+    --color-text-secondary: whitesmoke;
+    --color-accent: #20C20E;
+    --color-button-default: #4d4d4d;
+    --color-button-default-text: white; 
+    --color-button-hover: #1aa30c;
+    --color-shadow-accent: #20C20Eaa;
+    --color-shadow-accent-light: #20C20E55;
+    --color-shadow-accent-medium: #20C20E66;
+}
+
+/* :root
+{
+    --color-background-primary: #f0f0f0;
+    --color-background-secondary: #e1e1e1;
+    --color-background-tertiary: #FFFFFF;
+    --color-border-default: #7D7D7D;
+    --color-border-highlight: #21CF0E;
+    --color-border-muted: #C8C8C8;
+    --color-text-primary: #000000;
+    --color-text-secondary: #101010;
+    --color-accent: #21CF0E;
+    --color-button-default-text: #FFFFFF; 
+    --color-button-default: #7D7D7D;
+    --color-button-hover: #21CF0E;
+    --color-shadow-accent: #21CF0Eaa;
+    --color-shadow-accent-light: #20C20E55;
+    --color-shadow-accent-medium: #20C20E66; */
+/* } */
+
+body
+{
+    font-family: "IBM Plex Mono", monospace;
+    background-color: var(--color-background-primary);
+    color: var(--color-text-primary);
+}
+
+table
+{
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+tr, td
+{
+    border: 0px;
+}
+
+input
+{
+    font-family: "IBM Plex Mono", monospace;
+    background-color: var(--color-background-secondary);
+    border: 2px solid var(--color-border-default);
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: var(--color-text-secondary);
+    height: 40px;
+    width: 100%;
+    display: block;
+    margin: auto;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+input:focus
+{
+    outline: 0px;
+    border: 2px solid var(--color-border-highlight);
+}
+
+.accent-button
+{
+    font-family: "Lato", sans-serif;
+    background-color: var(--color-button-default);
+    color: var(--color-button-default-text);
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+    
+.accent-button:hover
+{
+    background-color: var(--color-button-hover);
+    box-shadow: 0 0 5px var(--color-shadow-accent), 0 0 5px var(--color-shadow-accent-light);
+}
+
+.accent-button:active
+{
+    box-shadow: 0 0 7px var(--color-shadow-accent-medium);
+}
+
+.main_area
+{
+    width: 80%;
+    margin: auto;
+}
+
+.header {
+    text-align: center;
+}
+
+.subheader
+{
+    color: var(--color-text-secondary);
+    font-family: "Lato", sans-serif;
+    font-size: 13px;
+}
+
+.input_area {
+    margin-top: 30px;
+}
+
+.viewer_container
+{
+    margin-top: 30px;
+}
+
+.container
+{
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: var(--color-background-tertiary);
+    box-sizing: border-box;
+}
+
+.label
+{
+    margin-bottom: 15px;
+}
+
+.indicator
+{
+    border: solid 1px var(--color-background-primary);
+}
+
+.no_vertical
+{
+    border-left: 0;
+    border-right: 0;
+}
+
+.zero
+{
+    border-bottom: solid 2px var(--color-border-muted);
+}
+
+.signal
+{
+    height: 50px;
+}
+
+.on_top
+{
+    border-top-width: 3px;
+    border-top-color: var(--color-accent);
+}
+
+.on_bottom
+{
+    border-bottom-width: 3px;
+    border-bottom-color: var(--color-accent);
+}
+
+.on_left
+{
+    border-left-width: 3px;
+    border-left-color: var(--color-accent);
+}
+
+.on_right
+{
+    border-right-width: 3px;
+    border-right-color: var(--color-accent);
+}
+
+.binary_label
+{
+    text-align: center;
+    height: 20px;
+    vertical-align: bottom;
+}
+
+.level_label
+{
+    margin: 0px;
+    transform: translateY(-50%);
+    width: 30px;
+    padding-right: 10px;
+    text-align: center;
+}
+
+.special_label
+{
+    width: max-content;
+    transform: translateX(-50%);
+    margin: 0px;
+}
+
+.channel_label
+{
+    padding: 20px 0 10px 0;
+    font-weight: bold;
+}

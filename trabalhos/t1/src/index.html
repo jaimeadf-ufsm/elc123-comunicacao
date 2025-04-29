@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+    <title>Códigos de Linha - visualização</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Lato&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main_area">
+        <div class="header">
+            <h1>Visualização de Códigos de Linha</h1> 
+            <div class="subheader">
+                <p>Trabalho 1 de Comunicação de Dados (ELC123)<br>Grupo: Guilherme Brizzi, Guilherme Einloft, Jaime Filho e Luís Tozevich.</p>
+            </div>
+            
+            <div class="input_area">
+                <p class="subheader">Digite uma sequência de bits para codificá-los.</p>
+                <input type="text" inputmode="numeric" oninput="this.value = this.value.replace(/[^01]/g, '')" id="sequence_in">
+                <button onclick="generate();" class="accent-button">Codificar</button>
+            </div>
+        </div>
+    
+        <div class="viewer_container" id="viewer_container">
+        </div>
+    </div>
+</body>
