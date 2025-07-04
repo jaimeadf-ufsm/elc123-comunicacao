@@ -1,4 +1,5 @@
 #include "Hub.h"
+#include "CRC.h"
 
 int HubMode(const std::string& path)
 {
@@ -86,6 +87,8 @@ void DisplayUsage(const char* programName)
 
 int main(int argc, char* argv[])
 {
+    crc_initialize();
+
     if (argc < 3)
     {
         DisplayUsage(argv[0]);

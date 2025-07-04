@@ -22,7 +22,7 @@ struct Frame
     uint8_t SourceAddress;
     uint8_t Length;
     uint8_t Payload[255];
-    uint8_t CRC;
+    uint32_t CRC;
 };
 
 class LinkConnection
