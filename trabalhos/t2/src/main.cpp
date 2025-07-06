@@ -1,4 +1,6 @@
+#include <algorithm>
 #include "Hub.h"
+#include "Client.h"
 #include "CRC.h"
 
 int HubMode(const std::string& path)
@@ -20,54 +22,11 @@ int HubMode(const std::string& path)
 
 int ClientMode(const std::string& path, uint8_t address)
 {
+    Client client(path, address);
+    
     try
     {
-        auto physicalConnection = std::make_unique<PhysicalConnection>(PhysicalConnection::Connect(path));
-        auto linkConnection = std::make_shared<LinkConnection>(std::move(physicalConnection));
-
-        std::thread thread(
-            [linkConnection]()
-            {
-                Frame frame;
-
-                while (true)
-                {
-                    try
-                    {
-                        linkConnection->Receive(frame);
-                    }
-                    catch (const std::runtime_error& e)
-                    {
-                        std::cerr << "An error ocurred while receiving frame: " << e.what() << std::endl;
-                        break;
-                    }
-
-                    std::cout << "Received frame." << std::endl;
-                    std::cout << frame << std::endl;
-                    std::cout << std::endl;
-                }
-            }
-        );
-
-        std::string line;
-
-        while (std::getline(std::cin, line))
-        {
-            if (line.empty())
-                continue;
-
-            Frame frame;
-            frame.DestinationAddress = 0xFF;
-            frame.SourceAddress = address;
-            frame.Length = static_cast<uint8_t>(line.size());
-            std::memcpy(frame.Payload, line.data(), frame.Length);
-
-            std::cout << "Sending frame..." << std::endl;
-            std::cout << frame << std::endl;
-            std::cout << std::endl;
-       
-            linkConnection->Send(frame);
-        }
+        client.run();
     }
     catch (const std::exception& e)
     {

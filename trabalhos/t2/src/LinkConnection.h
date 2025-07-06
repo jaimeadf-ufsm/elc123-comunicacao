@@ -8,8 +8,8 @@
 #include "PhysicalConnection.h"
 
 #define FRAME_PREAMBLE_SIZE 2
-#define FRAME_HEADER_SIZE 3
-#define FRAME_PAYLOAD_SIZE 255
+#define FRAME_HEADER_SIZE 5
+#define FRAME_PAYLOAD_SIZE 5
 #define FRAME_TRAILER_SIZE 1
 
 #define MAXIMUM_FRAME_SIZE (FRAME_PREAMBLE_SIZE + FRAME_HEADER_SIZE + FRAME_PAYLOAD_SIZE + FRAME_TRAILER_SIZE)
@@ -21,9 +21,12 @@ struct Frame
     uint8_t DestinationAddress;
     uint8_t SourceAddress;
     uint8_t Length;
-    uint8_t Payload[255];
+    uint8_t ID;
+    uint8_t ACK;
+    uint8_t Payload[FRAME_PAYLOAD_SIZE];
     uint32_t CRC;
 };
+inline std::ostream& operator<<(std::ostream& os, const Frame& frame);
 
 class LinkConnection
 {
@@ -45,6 +48,8 @@ public:
         buffer[size++] = frame.DestinationAddress;
         buffer[size++] = frame.SourceAddress;
         buffer[size++] = frame.Length;
+        buffer[size++] = frame.ID;
+        buffer[size++] = frame.ACK;
 
         std::memcpy(buffer + size, frame.Payload, frame.Length);
         size += frame.Length;
@@ -73,6 +78,8 @@ public:
             frame.DestinationAddress = buffer[0];
             frame.SourceAddress = buffer[1];
             frame.Length = buffer[2];
+            frame.ID = buffer[3];
+            frame.ACK = buffer[4];
 
             if (frame.Length > FRAME_PAYLOAD_SIZE)
             {
@@ -108,6 +115,8 @@ inline std::ostream& operator<<(std::ostream& os, const Frame& frame)
     os << "  Destination Address: 0x" << std::hex << static_cast<int>(frame.DestinationAddress) << std::endl;
     os << "  Source Address: 0x" << std::hex << static_cast<int>(frame.SourceAddress) << std::endl;
     os << "  Length: " << std::dec << static_cast<int>(frame.Length) << std::endl;
+    os << "  ID: " << std::dec << static_cast<int>(frame.ID) << std::endl;
+    os << ((frame.ACK == 1) ? "  ACK\n" : "");
     os << "  Payload: ";
 
     for (int i = 0; i < frame.Length; ++i)
