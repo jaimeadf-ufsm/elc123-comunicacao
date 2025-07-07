@@ -15,7 +15,7 @@
 class Hub
 {
 public:
-    Hub(const std::string& path) : m_Path(path)
+    Hub(const std::string &path) : m_Path(path)
     {
     }
 
@@ -38,7 +38,7 @@ public:
             throw std::runtime_error("Unable to unlink unix socket file: " + std::string(strerror(errno)));
         }
 
-        if (bind(sfd, (struct sockaddr*)&addr, sizeof(addr)) < 0)
+        if (bind(sfd, (struct sockaddr *)&addr, sizeof(addr)) < 0)
         {
             close(sfd);
             throw std::runtime_error("Unable to bind unix socket: " + std::string(strerror(errno)));
@@ -82,7 +82,7 @@ public:
                         {
                             linkConnection->Receive(frame);
                         }
-                        catch (const std::runtime_error& e)
+                        catch (const std::runtime_error &e)
                         {
                             std::cerr << "Error while receiving frame from unix socket " << cfd << ": " << e.what() << std::endl;
                             break;
@@ -92,14 +92,14 @@ public:
                         std::cout << frame << std::endl;
                         std::cout << std::endl;
 
-                        Broadcast(frame);
+                        Broadcast(frame, linkConnection);
                     }
 
                     UnregisterConnection(linkConnection);
 
                     linkConnection->Close();
-                }
-            ).detach();
+                })
+                .detach();
         }
     }
 
@@ -109,19 +109,26 @@ private:
     std::mutex m_ConnectionsMutex;
     std::vector<std::shared_ptr<LinkConnection>> m_Connections;
 
-    void Broadcast(Frame& frame)
+    void Broadcast(Frame &frame, std::shared_ptr<LinkConnection> sender = nullptr)
     {
         std::lock_guard<std::mutex> lock(m_ConnectionsMutex);
 
-        for (const auto& connection : m_Connections)
+        std::cout << "[DEBUG] Broadcasting frame to " << m_Connections.size() << " connections" << std::endl;
+        int sent_count = 0;
+
+        for (const auto &connection : m_Connections)
         {
-            if (connection)
+            if (connection && connection != sender)
             {
+                std::cout << "[DEBUG] Sending to connection" << std::endl;
                 connection->Send(frame);
+                sent_count++;
             }
         }
+
+        std::cout << "[DEBUG] Frame sent to " << sent_count << " connections" << std::endl;
     }
-    
+
     void RegisterConnection(std::shared_ptr<LinkConnection> connection)
     {
         std::lock_guard<std::mutex> lock(m_ConnectionsMutex);
