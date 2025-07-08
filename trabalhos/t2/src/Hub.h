@@ -137,6 +137,7 @@ private:
         std::cout << "\n=== MANUAL MODE ===" << std::endl;
         DisplayFrameParts(rawFrame);
         std::cout << "\nFull frame (hex): " << BytesToHexString(rawFrame) << std::endl;
+        std::cout << "\nStrucutred " << frame << std::endl;
         
         while (true)
         {
