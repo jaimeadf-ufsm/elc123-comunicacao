@@ -141,7 +141,7 @@ private:
         
         while (true)
         {
-            std::cout << "\nCommands: flip <n> <start> <end> | set <hex> | drop | broadcast" << std::endl;
+            std::cout << "\nCommands: set <hex> | drop | broadcast" << std::endl;
             std::cout << "> ";
             
             std::string command;
@@ -157,22 +157,6 @@ private:
                 std::cout << "Broadcasting frame..." << std::endl;
                 BroadcastRaw(rawFrame, sender);
                 break;
-            }
-            else if (command == "flip")
-            {
-                int n, start, end;
-                if (std::cin >> n >> start >> end)
-                {
-                    FlipBits(rawFrame, n, start, end);
-                    std::cout << "Flipped " << n << " bits in range [" << start << ", " << end << "]" << std::endl;
-                    std::cout << "Modified frame: " << BytesToHexString(rawFrame) << std::endl;
-                }
-                else
-                {
-                    std::cout << "Invalid flip command syntax." << std::endl;
-                    std::cin.clear();
-                    std::cin.ignore(10000, '\n');
-                }
             }
             else if (command == "set")
             {
