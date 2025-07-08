@@ -101,7 +101,6 @@ public:
 
                         m_InterceptionMutex.lock();
 
-
                         if (m_DemoMode == HubControl::Automatic)
                         {
                             std::cout << "Broadcasting frame (automatic mode)." << std::endl;
@@ -128,6 +127,7 @@ private:
     HubControl m_DemoMode;
 
     std::mutex m_ConnectionsMutex;
+    std::mutex m_InterceptionMutex;
     std::vector<std::shared_ptr<LinkConnection>> m_Connections;
 
     void HandleManualMode(Frame &frame, std::shared_ptr<LinkConnection> sender)
