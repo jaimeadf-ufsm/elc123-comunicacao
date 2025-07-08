@@ -148,7 +148,7 @@ public:
         }
 
         int finalized = 0;
-        while (frame_size > 0 && id < init_id + SLIDING_WINDOW_N)
+        while (frame_size > 0 && id != init_id + SLIDING_WINDOW_N)
         { // inicializa frame buffer
             Frame frame = makeFrame(id, str_pos, frame_size, destAddress, line);
             frameBuffer.push_back(frame);

@@ -69,7 +69,7 @@ public:
 
         uint8_t originalLength = frame.Length;
 
-        uint8_t frameData[FRAME_HEADER_SIZE + FRAME_PAYLOAD_SIZE];
+        uint8_t frameData[MAXIMUM_FRAME_SIZE];
 
         std::memset(frameData, 0, sizeof(frameData));
 
@@ -83,7 +83,13 @@ public:
         {
             std::memcpy(frameData + FRAME_HEADER_SIZE, frame.Payload, frame.Length);
         }
-        size_t frameSize = FRAME_HEADER_SIZE + frame.Length;
+
+        int frameSize = FRAME_HEADER_SIZE + frame.Length;
+
+        frameData[frameSize++] = frame.CRC & 0xFF;
+        frameData[frameSize++] = (frame.CRC >> 8) & 0xFF;
+        frameData[frameSize++] = (frame.CRC >> 16) & 0xFF;
+        frameData[frameSize++] = (frame.CRC >> 24) & 0xFF;
 
         int bitsToCorrupt;
         if (m_CorruptedBits > 0)
@@ -141,6 +147,8 @@ public:
 
         frame.ID = frameData[3];
         frame.ACK = frameData[4];
+
+        frame.CRC = frameData[frameSize - 4] | (frameData[frameSize - 3] << 8) | (frameData[frameSize - 2] << 16) | (frameData[frameSize - 1] << 24);
 
         if (originalLength > 0)
         {
