@@ -70,6 +70,11 @@ public:
         m_PhysicalConnection->Send(buffer, size);
     }
 
+    void SendRaw(const uint8_t* data, int length)
+    {
+        m_PhysicalConnection->Send(data, length);
+    }
+
     void Receive(Frame &frame)
     {
         uint8_t buffer[MAXIMUM_FRAME_SIZE];

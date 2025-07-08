@@ -1,11 +1,12 @@
 #include <algorithm>
+#include <cstring>
 #include "Hub.h"
 #include "Client.h"
 #include "CRC.h"
 
-int HubMode(const std::string& path)
+int HubMode(const std::string& path, HubControl mode)
 {
-    Hub hub(path);
+    Hub hub(path, mode);
 
     try
     {
@@ -40,7 +41,7 @@ int ClientMode(const std::string& path, uint8_t address)
 void DisplayUsage(const char* programName)
 {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << "  " << programName << " hub <path>" << std::endl;
+    std::cerr << "  " << programName << " hub <path> [auto|manual]" << std::endl;
     std::cerr << "  " << programName << " client <path> <address>" << std::endl;
 }
 
@@ -59,7 +60,28 @@ int main(int argc, char* argv[])
 
     if (strcmp(mode, "hub") == 0)
     {
-        return HubMode(path);
+        HubControl mode = HubControl::Automatic;
+        
+        if (argc >= 4)
+        {
+            char* modeStr = argv[3];
+            if (strcmp(modeStr, "manual") == 0)
+            {
+                mode = HubControl::Manual;
+            }
+            else if (strcmp(modeStr, "auto") == 0)
+            {
+                mode = HubControl::Automatic;
+            }
+            else
+            {
+                std::cerr << "Invalid mode. Use 'auto' or 'manual'." << std::endl;
+                DisplayUsage(argv[0]);
+                return 1;
+            }
+        }
+        
+        return HubMode(path, mode);
     }
     else if (strcmp(mode, "client") == 0)
     {
